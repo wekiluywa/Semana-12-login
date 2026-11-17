@@ -1,1 +1,216 @@
-/* You can add global styles to this file, and also import other style files */
+/* custom-style.css - Inspirado en "Ado's Best Adobum" (Estilo Entintado / ORIHARA Art) */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+
+:root {
+  /* Paleta extraída de la portada "Best Adobum" */
+  --bg-dark-main: #0e1117;       /* Azul marino muy oscuro / sombras de cabello */
+  --bg-card-ink: #161c24;        /* Contenedores oscuros estilo tinta */
+  --ink-border: #2a3442;         /* Bordes de entintado */
+  --celeste-ink: #3a889e;        /* Celeste opaco / lágrimas e ilustración */
+  --celeste-bright: #4db3ce;     /* Celeste para realces de texto */
+  --crimson-red: #8b1c24;        /* Carmesí / sombreado rojo dramático */
+  --crimson-bright: #b32633;     /* Rojo vivo de acento */
+  --text-white: #f4f4f6;         /* Blanco hueso / piel */
+  --text-muted-custom: #a0a8b6;  /* Gris neutro */
+}
+
+
+
+body {
+  background-color: var(--bg-dark-main) !important;
+  color: var(--text-white) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Tipografía de títulos estilo manga/editorial */
+h1, h2, h3, .brand-font {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--bg-dark-main) !important;
+  border-bottom: 2px solid var(--ink-border) !important;
+}
+
+.navbar-brand span {
+  color: var(--text-white) !important;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: var(--text-muted-custom) !important;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--celeste-bright) !important;
+}
+
+/* Estilo de Tarjetas Entintadas (Líneas duras y esquinas rectas) */
+.bg-card-ink, .bg-dark {
+  background-color: var(--bg-card-ink) !important;
+}
+
+.border-ado, .card {
+  border: 2px solid var(--ink-border) !important;
+  border-radius: 0px !important; /* Esquinas rectas estilo cómic/manga */
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--celeste-ink) !important;
+}
+
+/* Sombra sólida proyectada (Efecto dibujo/manga sin brillo) */
+.shadow-sharp {
+  border: 2px solid var(--ink-border);
+  box-shadow: 6px 6px 0px #000000 !important;
+}
+
+/* Botones con estilo analógico */
+.btn-primary {
+  background-color: var(--celeste-ink) !important;
+  border: 2px solid var(--celeste-bright) !important;
+  color: #fff !important;
+  font-weight: 700;
+  border-radius: 0px !important;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--crimson-bright) !important;
+  border-color: var(--crimson-bright) !important;
+  color: #fff !important;
+}
+
+.btn-outline-custom {
+  color: var(--text-white) !important;
+  border: 2px solid var(--ink-border) !important;
+  background-color: transparent !important;
+  border-radius: 0px !important;
+}
+
+.btn-outline-custom:hover {
+  background-color: var(--ink-border) !important;
+  color: var(--celeste-bright) !important;
+}
+
+/* Colores de texto y etiquetas */
+.text-celeste {
+  color: var(--celeste-bright) !important;
+}
+
+.highlight-crimson {
+  color: var(--crimson-bright) !important;
+}
+
+.bg-celeste {
+  background-color: var(--celeste-ink) !important;
+}
+
+.bg-crimson {
+  background-color: var(--crimson-red) !important;
+}
+
+.bg-crimson-subtle {
+  background-color: rgba(139, 28, 36, 0.4) !important;
+  color: var(--text-white) !important;
+  border: 1px solid var(--crimson-bright) !important;
+}
+
+.text-muted-custom {
+  color: var(--text-muted-custom) !important;
+}
+
+/* Reproductor y Multimedia */
+.player-cover {
+  border: 2px solid var(--ink-border) !important;
+  border-radius: 0px !important;
+}
+
+.progress-bar {
+  background-color: var(--celeste-ink) !important;
+}
+
+.style-card-img {
+  height: 180px;
+  border-radius: 0px !important;
+}
+
+/* Formularios */
+.form-control {
+  border: 2px solid var(--ink-border) !important;
+}
+
+.form-control:focus {
+  background-color: var(--bg-dark-main) !important;
+  border-color: var(--celeste-ink) !important;
+  color: var(--text-white) !important;
+}
+
+
+/* Estructura base para todas las secciones con fondo de imagen */
+header.has-bg-img,
+section.has-bg-img {
+  position: relative;
+  z-index: 1;
+  background-color: var(--bg-dark-main) !important;
+}
+
+/* Pseudoelemento para la capa de la imagen y transparencia */
+header.has-bg-img::before,
+section.has-bg-img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* CONTROL GENERAL DE OPACIDAD  */
+  opacity: var(--bg-overlay-opacity, 0.25);
+  pointer-events: none;
+}
+
+/* 1. Header / Inicio */
+#inicio.has-bg-img::before {
+  background-image: url('img/fondos/fondo1.jpg');
+  --bg-overlay-opacity: 0.30; 
+}
+
+/* 2. Biografía / Sobre Ado */
+#biografia.has-bg-img::before {
+  background-image: url('img/fondos/fondo2.jpg');
+  --bg-overlay-opacity: 0.20; 
+}
+
+/* 3. Discografía */
+#discografia.has-bg-img::before {
+  background-image: url('img/fondos/fondo3.jpg');
+  --bg-overlay-opacity: 0.25;
+}
+
+/* 4. Galería & Videos */
+#galeria.has-bg-img::before {
+  background-image: url('img/fondos/fondo4.jpg');
+  --bg-overlay-opacity: 0.15; 
+}
+
+/* 5. Tour & Eventos */
+#eventos.has-bg-img::before {
+  background-image: url('img/fondos/fondo5.jpg');
+  --bg-overlay-opacity: 0.20;
+}
+
+/* 6. Comunidad */
+#comunidad.has-bg-img::before {
+  background-image: url('img/fondos/fondo8.jpg');
+  --bg-overlay-opacity: 0.25;
+}

@@ -1,0 +1,516 @@
+<div class="bg-dark text-light">
+  <nav class="navbar navbar-expand-lg sticky-top border-bottom border-ado">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 brand-font text-primary" href="#inicio">
+        <i class="bi bi-flower1 highlight-crimson"></i>
+        <span>ADO FANSPACE</span>
+      </a>
+
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarMain">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-medium">
+          <li class="nav-item"><a class="nav-link active" href="#inicio">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#biografia">Sobre Ado</a></li>
+          <li class="nav-item"><a class="nav-link" href="#discografia">Discografía</a></li>
+          <li class="nav-item"><a class="nav-link" href="#galeria">Galería & Videos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#eventos">Tour & Eventos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#comunidad">Comunidad</a></li>
+          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+        </ul>
+
+        @if (authService.currentUser(); as user) {
+          <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+            <div class="d-flex align-items-center gap-2">
+              @if (user.photoURL) {
+                <img [src]="user.photoURL" alt="Avatar" class="border border-ado" width="32" height="32">
+              }
+              <span class="text-celeste small fw-bold">{{ user.displayName }}</span>
+            </div>
+            <button (click)="authService.logout()" class="btn btn-sm btn-outline-custom rounded-0">
+              <i class="bi bi-box-arrow-right me-1"></i> Salir
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </nav>
+
+  <header id="inicio" class="hero-bg d-flex align-items-center position-relative py-5 has-bg-img">
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <div class="col-lg-7">
+          <span class="badge bg-crimson-subtle mb-3 px-3 py-2">
+            <i class="bi bi-journal-text me-1"></i> Ado's Best Adobum
+          </span>
+          <h1 class="display-3 fw-bold mb-3 text-white main-title">
+            La Voz en las Sombras: <span class="text-celeste">Ado</span> <span class="highlight-crimson">アド</span>
+          </h1>
+          <p class="lead text-muted-custom mb-4">
+            Explora el universo ilustrado de Ado. Una estética de trazo duro, manchas de tinta celeste y acentos carmesí que capturan la crudeza y emoción de su música.
+          </p>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="#discografia" class="btn btn-primary rounded-0 px-4">
+              <i class="bi bi-disc me-2"></i>Ver Discografía
+            </a>
+            <button class="btn btn-outline-custom rounded-0 px-4" data-bs-toggle="modal" data-bs-target="#modalBioFast">
+              <i class="bi bi-info-circle me-2"></i>Perfil Rápido
+            </button>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card bg-card-ink border-ado shadow-sharp p-3">
+            <div class="card-body">
+              <div class="text-center py-2">
+                <div class="ratio ratio-1x1 bg-dark d-flex align-items-center justify-content-center mb-3 border border-ado mx-auto player-cover overflow-hidden">
+                  <img [src]="currentTrack.cover" alt="Portada de la canción" class="w-100 h-100 object-fit-cover">
+                </div>
+                <h5 class="card-title fw-bold mb-1 text-white">{{ currentTrack.title }}</h5>
+                <p class="card-text text-muted-custom small">{{ currentTrack.album }}</p>
+              </div>
+
+              <div class="progress bg-dark border border-secondary mb-2 player-progress rounded-0" role="progressbar">
+                <div class="progress-bar" [style.width.%]="progress()"></div>
+              </div>
+              <div class="d-flex justify-content-between text-muted-custom small mb-3">
+                <span>{{ progress() }}%</span>
+                <span>{{ currentTrack.duration }}</span>
+              </div>
+
+              <div class="d-flex justify-content-center align-items-center gap-3">
+                <button class="btn btn-sm btn-outline-custom rounded-0" (click)="prevTrack()"><i class="bi bi-skip-start-fill"></i></button>
+                <button class="btn btn-primary rounded-0 p-3 d-flex align-items-center justify-content-center player-btn-main" (click)="togglePlay()">
+                  <i class="bi fs-4" [ngClass]="isPlaying() ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-custom rounded-0" (click)="nextTrack()"><i class="bi bi-skip-end-fill"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="biografia" class="py-5 border-top border-ado bg-card-ink has-bg-img">
+    <div class="container py-4">
+      <div class="row align-items-center gy-4">
+        <div class="col-md-5">
+          <div class="p-4 bg-dark border border-ado shadow-sharp text-center">
+            <div class="mb-3">
+              <img src="/img/R.jpg" alt="Retrato de Ado por ORIHARA" class="img-fluid border border-ado mb-3">
+            </div>
+            <h3 class="brand-font text-white">Anónima y Expresiva</h3>
+            <p class="text-muted-custom small">
+              Ilustrada con trazos oscuros, contraste dramático de luces y sombras, lágrimas de tinta celeste y acentos rojos cargados de emoción.
+            </p>
+            <div class="d-flex justify-content-center gap-2">
+              <span class="badge bg-dark border border-ado text-celeste">Utaite</span>
+              <span class="badge bg-dark border border-ado text-celeste">ORIHARA Art</span>
+              <span class="badge bg-dark border border-ado text-celeste">J-Pop</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-7">
+          <h2 class="display-6 fw-bold text-white mb-3">Concepto e Historia</h2>
+          <p class="text-muted-custom">
+            Ado comenzó su carrera en 2017 como una <strong>Utaite</strong>. Su nombre proviene del término del teatro tradicional japonés <em>Kyogen</em>.
+          </p>
+          <p class="text-muted-custom">
+            En octubre de 2020 lanzó su debut mayoritario con el éxito masivo <strong>"Usseewa"</strong>.
+          </p>
+
+          <ul class="nav nav-pills mb-3 border-bottom border-ado pb-2" id="bioTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active btn-sm rounded-0" data-bs-toggle="tab" data-bs-target="#origen">Origen</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link btn-sm rounded-0" data-bs-toggle="tab" data-bs-target="#estilo">Estilo Vocal</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link btn-sm rounded-0" data-bs-toggle="tab" data-bs-target="#avatar">Identidad Visual</button>
+            </li>
+          </ul>
+          <div class="tab-content text-muted-custom small">
+            <div class="tab-pane fade show active" id="origen">
+              Grababa sus primeras canciones en un armario insonorizado en su habitación antes de ser descubierta por productores de Vocaloid.
+            </div>
+            <div class="tab-pane fade" id="estilo">
+              Destaca por su rango expresivo, cambios drásticos de tono en milisegundos, growls potentes y control dinámico refinado.
+            </div>
+            <div class="tab-pane fade" id="avatar">
+              El arte visual distintivo de Ado es diseñado por la ilustradora <strong>ORIHARA</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="discografia" class="py-5 has-bg-img">
+    <div class="container py-4">
+      <div class="mb-4">
+        <h2 class="display-6 fw-bold text-white mb-1">Discografía Principal</h2>
+        <p class="text-muted-custom mb-0">Lanzamientos destacados y sencillos globales</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card bg-card-ink border-ado h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <span class="badge bg-celeste text-dark fw-bold rounded-0">Álbum Debut</span>
+                <span class="text-muted-custom small">2022</span>
+              </div>
+              <h4 class="card-title text-white fw-bold">Kyogen (狂言)</h4>
+              <p class="card-text text-muted-custom small flex-grow-1">
+                Su primer álbum de estudio completo. Incluye éxitos como 'Usseewa', 'Odo', 'Gira Gira' y 'Readymade'.
+              </p>
+              <button class="btn btn-outline-custom btn-sm rounded-0 w-100 mt-3" data-bs-toggle="modal" data-bs-target="#modalKyogen">
+                <i class="bi bi-list-stars me-1"></i> Ver Canciones
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card bg-card-ink border-ado h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <span class="badge bg-crimson text-white fw-bold rounded-0">Soundtrack</span>
+                <span class="text-muted-custom small">2022</span>
+              </div>
+              <h4 class="card-title text-white fw-bold">One Piece Film Red</h4>
+              <p class="card-text text-muted-custom small flex-grow-1">
+                Banda sonora completa interpretando a la cantante Uta. Destaca el tema principal 'New Genesis'.
+              </p>
+              <button class="btn btn-outline-custom btn-sm rounded-0 w-100 mt-3" data-bs-toggle="modal" data-bs-target="#modalFilmRed">
+                <i class="bi bi-list-stars me-1"></i> Ver Canciones
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card bg-card-ink border-ado h-100">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <span class="badge bg-celeste text-dark fw-bold rounded-0">2do Álbum</span>
+                <span class="text-muted-custom small">2024</span>
+              </div>
+              <h4 class="card-title text-white fw-bold">Zanmu (残夢)</h4>
+              <p class="card-text text-muted-custom small flex-grow-1">
+                Segundo álbum de estudio que reúne temas potentes como 'Show', 'Kura Kura', 'DIGNITY' y 'Rule'.
+              </p>
+              <button class="btn btn-outline-custom btn-sm rounded-0 w-100 mt-3" data-bs-toggle="modal" data-bs-target="#modalZanmu">
+                <i class="bi bi-list-stars me-1"></i> Ver Canciones
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria" class="py-5 bg-card-ink border-top border-ado has-bg-img">
+    <div class="container py-4">
+      <h2 class="display-6 fw-bold text-white mb-1">Galería & Videos</h2>
+      <p class="text-muted-custom mb-4">Material audiovisual e ilustraciones de ORIHARA</p>
+
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card bg-dark border-ado h-100">
+            <div class="card-header border-ado text-white fw-medium">Video Musical 1</div>
+            <div class="card-body p-2">
+              <video controls class="w-100">
+                <source src="/movie/Eve Live 2023「花嵐」on YouTube(720P_HD).mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card bg-dark border-ado h-100">
+            <div class="card-header border-ado text-white fw-medium">Video Musical 2</div>
+            <div class="card-body p-2">
+              <video controls class="w-100">
+                <source src="/movie/Eveの日 Eve Arena Tour 2025「Under Blue」_K-Arena Yokohama YouTube ver(720P_HD).mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-4">
+          <h4 class="text-white mb-3"><i class="bi bi-images text-celeste me-2"></i>Ilustraciones & Arte Visual</h4>
+          <div class="row g-3">
+            <div class="col-6 col-md-3">
+              <div class="gallery-item border border-ado overflow-hidden bg-dark style-card-img">
+                <img src="/img/1.jpg" alt="Arte Ado 1" class="w-100 h-100 object-fit-cover">
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="gallery-item border border-ado overflow-hidden bg-dark style-card-img">
+                <img src="/img/2.jpg" alt="Arte Ado 2" class="w-100 h-100 object-fit-cover">
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="gallery-item border border-ado overflow-hidden bg-dark style-card-img">
+                <img src="/img/3.jpg" alt="Arte Ado 3" class="w-100 h-100 object-fit-cover">
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="gallery-item border border-ado overflow-hidden bg-dark style-card-img">
+                <img src="/img/4.jpg" alt="Arte Ado 4" class="w-100 h-100 object-fit-cover">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="eventos" class="py-5 has-bg-img">
+    <div class="container py-4">
+      <h2 class="display-6 fw-bold text-white mb-2">Conciertos & Giras</h2>
+      <p class="text-muted-custom mb-4">Fechas y eventos relevantes</p>
+      <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle border-ado">
+          <thead>
+            <tr>
+              <th>Evento / Gira</th>
+              <th>Ubicación</th>
+              <th>Lugar</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong class="text-white">Ado's Best Album Live</strong></td>
+              <td>Tokio, Japón</td>
+              <td>Múltiples Arenas</td>
+              <td><span class="badge bg-crimson text-white rounded-0">Álbum Especial</span></td>
+            </tr>
+            <tr>
+              <td><strong class="text-white">Ado World Tour "Wish"</strong></td>
+              <td>Asia, Europa, Norteamérica</td>
+              <td>Múltiples Arenas</td>
+              <td><span class="badge bg-dark border border-ado text-celeste rounded-0">Completado</span></td>
+            </tr>
+            <tr>
+              <td><strong class="text-white">Special Live "Shinzou"</strong></td>
+              <td>Tokio, Japón</td>
+              <td>Japan National Stadium</td>
+              <td><span class="badge bg-dark border border-ado text-muted-custom rounded-0">Hito Histórico</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="comunidad" class="py-5 bg-card-ink border-top border-ado has-bg-img">
+    <div class="container py-4">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <h3 class="fw-bold text-white mb-3">
+            <i class="bi bi-chat-square-heart text-celeste me-2"></i>Muro de Fans
+          </h3>
+          <p class="text-muted-custom small">Deja un mensaje para Ado u otros fans de la comunidad.</p>
+
+          <form (ngSubmit)="publishMessage()" class="mb-3">
+            <div class="mb-2">
+              <input type="text" [(ngModel)]="fanName" name="fanName" class="form-control form-control-sm bg-dark border-ado text-light rounded-0" placeholder="Tu Nombre o Nickname" required>
+            </div>
+            <div class="mb-2">
+              <textarea [(ngModel)]="fanMsg" name="fanMsg" class="form-control form-control-sm bg-dark border-ado text-light rounded-0" rows="3" placeholder="Escribe tu mensaje..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm rounded-0 px-4">Publicar Mensaje</button>
+          </form>
+
+          @for (post of fanPosts(); track $index) {
+            <div class="p-2 mb-2 bg-dark border border-ado small">
+              <strong class="text-celeste">{{ post.author }}:</strong>
+              <span class="text-light ms-1">{{ post.text }}</span>
+            </div>
+          }
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card bg-dark border-ado p-3">
+            <div class="card-body">
+              <h3 class="fw-bold text-white mb-2">
+                <i class="bi bi-patch-question text-celeste me-2"></i>¿Cuánto sabes de Ado?
+              </h3>
+              <p class="text-muted-custom small mb-3">Responde la pregunta rápida:</p>
+              <p class="fw-medium text-white mb-3">1. ¿Cuál fue el sencillo debut mayoritario de Ado lanzado en 2020?</p>
+              <div class="d-grid gap-2">
+                <button (click)="answerQuiz('A')" class="btn btn-outline-custom btn-sm text-start rounded-0">A) New Genesis</button>
+                <button (click)="answerQuiz('B')" class="btn btn-outline-custom btn-sm text-start rounded-0">B) Usseewa</button>
+                <button (click)="answerQuiz('C')" class="btn btn-outline-custom btn-sm text-start rounded-0">C) Show</button>
+              </div>
+              @if (quizFeedback()) {
+                <div class="mt-3 alert small mb-0 rounded-0" [ngClass]="quizCorrect() ? 'alert-success' : 'alert-danger'">
+                  {{ quizFeedback() }}
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 mt-4">
+          <div class="card bg-dark border-ado p-3">
+            <div class="card-body">
+              <h3 class="fw-bold text-white mb-3">
+                <i class="bi bi-star-fill highlight-crimson me-2"></i>Fans destacados (Conectado a API)
+              </h3>
+              <div class="row g-3">
+                @for (fan of apiFans(); track fan.id) {
+                  <div class="col-md-6 col-lg-4">
+                    <div class="card bg-card-ink border-ado h-100 rounded-0">
+                      <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center mb-3">
+                          <div class="bg-celeste text-dark d-flex align-items-center justify-content-center me-3 border border-ado" style="width: 45px; height: 45px; font-weight: bold;">
+                            {{ fan.name.charAt(0) }}
+                          </div>
+                          <div>
+                            <h6 class="card-title text-white mb-0 fw-bold">{{ fan.name }}</h6>
+                            <small class="text-celeste">@{{ fan.username }}</small>
+                          </div>
+                        </div>
+                        <ul class="list-group list-group-flush bg-transparent rounded-0 border-ado mt-auto">
+                          <li class="list-group-item bg-transparent text-muted-custom small px-0 border-ado"><i class="bi bi-envelope me-2 text-celeste"></i>{{ fan.email }}</li>
+                          <li class="list-group-item bg-transparent text-muted-custom small px-0 border-ado"><i class="bi bi-geo-alt me-2 text-celeste"></i>{{ fan.address.city }}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                } @empty {
+                  <div class="col-12 text-center text-muted-custom py-3">
+                    {{ apiError() ? 'Error al cargar los datos de la API.' : 'Cargando fans destacados...' }}
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="py-5 has-bg-img">
+    <div class="container py-4">
+      <h2 class="display-6 fw-bold text-center text-white mb-4">Preguntas Frecuentes</h2>
+      <div class="accordion accordion-flush" id="faqAccordion">
+        <div class="accordion-item bg-dark border-ado">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-dark text-light rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+              ¿Por qué Ado no muestra su rostro en público?
+            </button>
+          </h2>
+          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted-custom small">
+              Siguiendo la tradición de muchos <em>utaites</em>, Ado prefiere mantener su vida personal en privado para enfocarse completamente en su expresión musical y vocal.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item bg-dark border-ado">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-dark text-light rounded-0" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+              ¿Qué significa la rosa azul?
+            </button>
+          </h2>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted-custom small">
+              La rosa azul simboliza tradicionalmente 'lo imposible', pero hoy en la comunidad representa 'sueños hechos realidad'.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-4 bg-dark border-top border-ado text-center text-muted-custom small">
+    <div class="container">
+      <p class="mb-1"><i class="bi bi-flower1 text-celeste me-1"></i> Ado Fansite - Creado para la comunidad de fans.</p>
+      <p class="mb-0 opacity-50">Proyecto no oficial de admiración. Todos los derechos pertenecen a Universal Music Japan / Cloud Nine.</p>
+    </div>
+  </footer>
+
+  <!-- Modales -->
+  <div class="modal fade" id="modalBioFast" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark border-ado text-light rounded-0">
+        <div class="modal-header border-bottom border-ado">
+          <h5 class="modal-title fw-bold">Perfil Rápido: Ado</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body small text-muted-custom">
+          <p><strong class="text-white">Nacimiento:</strong> 24 de octubre de 2002 (Tokio, Japón)</p>
+          <p><strong class="text-white">Géneros:</strong> J-Pop, Rock, Vocaloid, Utaite</p>
+          <p class="mb-0"><strong class="text-white">Sello:</strong> Virgin Music / Universal Music Japan</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalKyogen" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark border-ado text-light rounded-0">
+        <div class="modal-header border-bottom border-ado">
+          <h5 class="modal-title fw-bold">Tracklist: Kyogen (狂言)</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ol class="list-group list-group-numbered list-group-flush bg-transparent">
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Readymade</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Odo</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Domestic De Violence</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Usseewa</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Gira Gira</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalFilmRed" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark border-ado text-light rounded-0">
+        <div class="modal-header border-bottom border-ado">
+          <h5 class="modal-title fw-bold">Tracklist: One Piece Film Red</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ol class="list-group list-group-numbered list-group-flush bg-transparent">
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">New Genesis (新時代)</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">I'm Invincible (私は最強)</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Backlight (逆光)</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Tot Musica</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalZanmu" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark border-ado text-light rounded-0">
+        <div class="modal-header border-bottom border-ado">
+          <h5 class="modal-title fw-bold">Tracklist: Zanmu (残夢)</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <ol class="list-group list-group-numbered list-group-flush bg-transparent">
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Show (唱)</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Kura Kura (クラクラ)</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">DIGNITY</li>
+            <li class="list-group-item bg-transparent text-muted-custom border-ado">Rule (ルル)</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

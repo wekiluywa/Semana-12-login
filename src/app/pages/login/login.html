@@ -1,0 +1,30 @@
+<div class="min-vh-100 d-flex align-items-center justify-content-center p-3" style="background-color: var(--bg-dark-main);">
+  <div class="card bg-card-ink border-ado shadow-sharp p-4" style="max-width: 440px; width: 100%;">
+    <div class="card-body text-center">
+      <div class="mb-3">
+        <i class="bi bi-flower1 highlight-crimson display-4"></i>
+      </div>
+
+      <span class="badge bg-crimson-subtle mb-2 px-3 py-2">
+        Acceso Exclusivo Fans
+      </span>
+
+      <h2 class="brand-font text-white fw-bold mb-2">ADO FANSPACE</h2>
+      <p class="text-muted-custom small mb-4">
+        Inicia sesión con tu cuenta de Google para acceder a la discografía, galería y comunidad de Ado.
+      </p>
+
+      <button
+        (click)="authService.loginWithGoogle()"
+        class="btn btn-primary w-100 py-2 d-flex align-items-center justify-content-center gap-2">
+        <i class="bi bi-google"></i>
+        <span>Continuar con Google</span>
+      </button>
+
+      <hr class="border-ado my-4">
+      <p class="text-muted-custom small mb-0 opacity-75">
+        Proyecto Angular + Firebase Authentication
+      </p>
+    </div>
+  </div>
+</div>
